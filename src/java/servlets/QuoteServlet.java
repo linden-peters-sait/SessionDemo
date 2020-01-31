@@ -7,6 +7,7 @@ package servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -65,12 +66,38 @@ public class QuoteServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String frmName = request.getParameter("frmName");
         String frmQuote = request.getParameter("frmQuote");
+        String frmNumber = request.getParameter("frmNumber");
+        
         if (frmName != null) {
             session.setAttribute("firstname", frmName);
         }
         if (frmQuote != null) {
             request.setAttribute("quote", frmQuote);
         }
+        
+        ArrayList<Integer> numbers = (ArrayList<Integer>)session.getAttribute("numbers");
+        if (numbers == null) {
+            numbers = new ArrayList<Integer>();
+        }
+        if (frmNumber != null) {
+            try {
+                int inputNum = Integer.parseInt(frmNumber);
+                request.setAttribute("inputnum", inputNum);
+                numbers.add(inputNum);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        session.setAttribute("numbers", numbers);
+        float average = 0;
+        if (numbers.size() > 0) {
+            int totalNum = 0;
+            for (Integer n : numbers) {
+                totalNum += n;
+            }
+            average = totalNum / numbers.size();
+        }
+        request.setAttribute("average", average);
         getServletContext().getRequestDispatcher("/WEB-INF/quotepage.jsp").forward(request, response);
     }
 

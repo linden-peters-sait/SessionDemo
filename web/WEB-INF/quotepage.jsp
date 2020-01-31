@@ -14,6 +14,9 @@
     <body>
         <p>Welcome, ${sessionScope.firstname}</p>
         <p>The last thing you said was "<i>${requestScope.quote}</i>"</p>
+        <p>The list of numbers is: ${numbers}</p>
+        <p>The last number entered was: ${inputnum}</p>
+        <p>The average of these numbers is: ${average}</p>
 
         <form method="POST">
         <input type="text" name="frmName" />
@@ -23,6 +26,11 @@
         <form method="POST">
         <input type="text" name="frmQuote" />
         <input type="submit" name="btnPost" value="Post Quote" />
+        </form>
+        
+        <form method="POST">
+        <input type="text" name="frmNumber" />
+        <input type="submit" name="btnAvg" value="Update Average" />
         </form>
     </body>
 </html>
